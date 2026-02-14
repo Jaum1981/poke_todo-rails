@@ -17,6 +17,16 @@ class Task < ApplicationRecord
     end
   end
 
+  def mark_as_completed!
+    return if points_claimed?
+
+    ActiveRecord::Base.transaction do
+      update!(completed: true, points_claimed: true)
+
+      user.increment!(:points, score_value)
+    end
+  end
+
   def mark_as_incomplete!
     update!(completed: false)
   end

@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
+  before_action :set_task, only: %i[ show edit update destroy complete ]
 
   # GET /tasks or /tasks.json
   def index
@@ -21,7 +22,7 @@ class TasksController < ApplicationController
 
   # POST /tasks or /tasks.json
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
 
     respond_to do |format|
       if @task.save
@@ -57,10 +58,19 @@ class TasksController < ApplicationController
     end
   end
 
+  def complete
+    if @task.mark_as_completed!
+      points = @task.score_value
+      redirect_to tasks_path, notice: "Parabéns! Tarefa concluída. Você ganhou #{points} pontos."
+    else
+      redirect_to tasks_path, alert: "Não foi possível concluir a tarefa."
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_task
-      @task = Task.find(params[:id])
+      @task = current_user.tasks.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
