@@ -2,6 +2,7 @@ class LootboxController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    @new_pokemon = current_user.captured_pokemons.find_by(id: params[:new_pokemon_id]) if params[:new_pokemon_id]
   end
 
   def open
@@ -25,7 +26,7 @@ class LootboxController < ApplicationController
         )
       end
 
-      render :index
+      redirect_to lootbox_path(new_pokemon_id: @new_pokemon.id)
     else
       redirect_to lootbox_path, alert: "A máquina travou (Erro na API). Tente de novo, seus pontos não foram gastos."
     end
