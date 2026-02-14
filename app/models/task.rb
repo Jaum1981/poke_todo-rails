@@ -8,7 +8,7 @@ class Task < ApplicationRecord
   validates :title, presence: true
   validates :difficulty, presence: true
 
-  def score_points
+  def score_value
     case difficulty
     when 'easy' then 10
     when 'medium' then 30

@@ -1,14 +1,42 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Tasks</h1>
+<h1>Minhas Tarefas</h1>
 
 <div id="tasks">
   <% @tasks.each do |task| %>
-    <%= render task %>
-    <p>
-      <%= link_to "Show this task", task %>
-    </p>
+    <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 10px; border-radius: 8px; background-color: <%= task.completed? ? '#f0f9ff' : '#fff' %>;">
+      
+      <h3>
+        <%= task.title %> 
+        <small style="font-size: 0.6em; color: #666;">(<%= task.difficulty.upcase %> - <%= task.score_value %> XP)</small>
+      </h3>
+      
+      <p><%= task.description %></p>
+
+      <div class="actions">
+        <% if task.completed? %>
+          <span style="color: green; font-weight: bold;">✅ Concluída!</span>
+          <% if task.points_claimed? %>
+             <span style="font-size: 0.8em; color: #888;">(+<%= task.score_value %> pontos creditados)</span>
+          <% end %>
+        
+        <% else %>
+          <%= button_to "Concluir Tarefa (+#{task.score_value} XP)", 
+              complete_task_path(task), 
+              method: :patch, 
+              style: "background-color: #28a745; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 5px;" 
+          %>
+        <% end %>
+
+        <div style="margin-top: 10px; font-size: 0.9em;">
+          <%= link_to "Mostrar", task %> |
+          <%= link_to "Editar", edit_task_path(task) %> |
+          <%= link_to "Apagar", task, method: :delete, data: { confirm: 'Tem a certeza?' } %> 
+        </div>
+      </div>
+
+    </div>
   <% end %>
 </div>
 
-<%= link_to "New task", new_task_path %>
+<br>
+
+<%= link_to "Nova Tarefa", new_task_path, style: "background-color: #007bff; color: white; padding: 10px; text-decoration: none; border-radius: 5px;" %>
