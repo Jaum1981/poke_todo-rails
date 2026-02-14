@@ -1,0 +1,23 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  # Mova estas configurações para cá:
+  username: jaum
+  password: 1981
+  host: localhost
+  port: 5432
+
+development:
+  <<: *default
+  database: poke_todo_development
+
+test:
+  <<: *default
+  database: poke_todo_test
+
+production:
+  <<: *default
+  database: poke_todo_production
+  username: poke_todo
+  password: <%= ENV["POKE_TODO_DATABASE_PASSWORD"] %>
