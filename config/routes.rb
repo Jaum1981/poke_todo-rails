@@ -1,17 +1,15 @@
 Rails.application.routes.draw do
-  get 'lootbox/index'
-  get 'pokemons/index'
+  devise_for :users
   
+  root to: "tasks#index"
+
   resources :tasks do
     member do
-      patch :complete  # Cria a rota: PATCH /tasks/:id/complete
+      patch :complete
     end
   end
 
-  get 'home/index'
-  devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  
-  # Defines the root path route ("/")
-  root "home#index"
+  resources :pokemons, only: [:index] 
+  get 'lootbox', to: 'lootbox#index'  
+  post 'lootbox/open', to: 'lootbox#open', as: :open_lootbox
 end
