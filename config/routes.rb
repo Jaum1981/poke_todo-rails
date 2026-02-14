@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'lootbox/index'
+  get 'pokemons/index'
   
   resources :tasks do
     member do
