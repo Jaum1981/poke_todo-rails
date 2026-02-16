@@ -29,7 +29,7 @@
         </div>
 
         <h3 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">
-          <%= task.title %>
+          <%= link_to task.title, task_path(task), class: "hover:underline decoration-2 underline-offset-4" %>
         </h3>
         
         <p class="text-slate-500 text-sm mb-6 line-clamp-3">

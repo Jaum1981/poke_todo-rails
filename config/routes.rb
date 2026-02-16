@@ -9,7 +9,8 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :pokemons, only: [:index] 
+  resources :pokemons, only: [:index, :destroy] 
   get 'lootbox', to: 'lootbox#index'  
   post 'lootbox/open', to: 'lootbox#open', as: :open_lootbox
+  post 'ai/ask', to: 'ai#ask'
 end
